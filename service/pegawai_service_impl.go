@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"database/sql"
+	"net/http"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/nuraziz04/echo-restful-api-v2/helper"
@@ -101,4 +102,28 @@ func (service *PegawaiServiceImpl) FindAll(ctx context.Context) ([]web.PegawaiRe
 	pgs := service.PegawaiRepository.FindAll(ctx, tx)
 
 	return helper.ToPegawaiResponses(pgs), nil
+}
+
+func (service *PegawaiServiceImpl) CreateLoop(ctx context.Context, request web.PegawaiCreateRequestLoop) (web.WebResponse, error) {
+	err := service.Validate.Struct(request)
+	helper.PanicIfError(err)
+
+	tx, err := service.DB.Begin()
+	helper.PanicIfError(err)
+
+	defer helper.CommitOrRollback(tx)
+
+	for _, pgs := range request.Data {
+		// cek validate required
+		err = service.Validate.Struct(pgs)
+		helper.PanicIfError(err)
+
+		pg := domain.Pegawai{
+			Name:    pgs.Name,
+			Alamat:  pgs.Alamat,
+			Telepon: pgs.Telepon,
+		}
+		service.PegawaiRepository.Save(ctx, tx, pg)
+	}
+	return web.WebResponse{Code: http.StatusOK, Status: "Success", Data: nil}, nil
 }

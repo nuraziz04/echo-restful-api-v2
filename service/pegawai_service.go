@@ -12,4 +12,5 @@ type PegawaiService interface {
 	Delete(ctx context.Context, pegawaiId int) error
 	FindById(ctx context.Context, pegawaiId int) (web.PegawaiResponse, error)
 	FindAll(ctx context.Context) ([]web.PegawaiResponse, error)
+	CreateLoop(ctx context.Context, request web.PegawaiCreateRequestLoop) (web.WebResponse, error)
 }

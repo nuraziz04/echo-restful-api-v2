@@ -8,4 +8,5 @@ type PegawaiController interface {
 	Delete(c echo.Context) error
 	FindById(c echo.Context) error
 	FindAll(c echo.Context) error
+	CreateLoop(c echo.Context) error
 }

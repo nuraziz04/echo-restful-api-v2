@@ -47,6 +47,7 @@ func Init() *echo.Echo {
 	e.DELETE("/pegawai/:id", pegawaiController.Delete, middleware.IsAuthenticated)
 	e.GET("/pegawai/:id", pegawaiController.FindById, middleware.IsAuthenticated)
 	e.GET("/pegawai", pegawaiController.FindAll, middleware.IsAuthenticated)
+	e.POST("/pegawai-loop", pegawaiController.CreateLoop, middleware.IsAuthenticated)
 
 	e.POST("/login", LoginController.CheckLogin)
 

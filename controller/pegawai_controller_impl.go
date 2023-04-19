@@ -104,3 +104,18 @@ func (controller *PegawaiControllerImpl) FindAll(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, response)
 }
+
+func (controller *PegawaiControllerImpl) CreateLoop(c echo.Context) error {
+	ctx := c.Request().Context()
+	if ctx == nil {
+		ctx = context.Background()
+	}
+
+	pgs := new(web.PegawaiCreateRequestLoop)
+	helper.ReadFromRequestBody(c, pgs)
+
+	pegawaiResponse, err := controller.PegawaiService.CreateLoop(ctx, *pgs)
+	helper.PanicIfError(err)
+
+	return c.JSON(http.StatusOK, pegawaiResponse)
+}
