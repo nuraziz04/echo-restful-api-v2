@@ -3,6 +3,7 @@ package routes
 import (
 	"net/http"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 	"github.com/nuraziz04/echo-restful-api-v2/controller"
 	"github.com/nuraziz04/echo-restful-api-v2/database"
@@ -14,11 +15,12 @@ import (
 
 func Init() *echo.Echo {
 	e := echo.New()
+	v := validator.New()
 
 	db := database.CreateConn()
 
 	pegawaiRepository := repository.NewPegawaiRepository()
-	pegawaiService := service.NewPegawaiService(pegawaiRepository, db)
+	pegawaiService := service.NewPegawaiService(pegawaiRepository, db, v)
 	pegawaiController := controller.NewPegawaiController(pegawaiService)
 
 	loginRepository := repository.NewLoginRepository()

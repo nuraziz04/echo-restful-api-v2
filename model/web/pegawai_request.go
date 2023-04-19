@@ -1,14 +1,14 @@
 package web
 
 type PegawaiCreateRequest struct {
-	Name    string `json:"name"`
-	Alamat  string `json:"alamat"`
-	Telepon string `json:"telepon"`
+	Name    string `json:"name" validate:"required"`
+	Alamat  string `json:"alamat" validate:"required"`
+	Telepon string `json:"telepon" validate:"required"`
 }
 
 type PegawaiUpdateRequest struct {
-	Id      int    `json:"id"`
-	Name    string `json:"name"`
-	Alamat  string `json:"alamat"`
-	Telepon string `json:"telepon"`
+	Id      int    `json:"id" validate:"required"`
+	Name    string `json:"name" validate:"required"`
+	Alamat  string `json:"alamat" validate:"required"`
+	Telepon string `json:"telepon" validate:"required"`
 }

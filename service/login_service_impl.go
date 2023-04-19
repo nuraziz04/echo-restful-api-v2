@@ -45,7 +45,7 @@ func (service *LoginServiceImpl) CheckLogin(ctx context.Context, request web.Use
 	claims := token.Claims.(jwt.MapClaims)
 	claims["username"] = usr.Username
 	claims["level"] = "application"
-	claims["exp"] = time.Now().Add(time.Minute * 1).Unix()
+	claims["exp"] = time.Now().Add(time.Minute * 90).Unix()
 
 	t, err := token.SignedString([]byte("secret"))
 	if err != nil {

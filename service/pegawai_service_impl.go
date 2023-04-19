@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/nuraziz04/echo-restful-api-v2/helper"
 	"github.com/nuraziz04/echo-restful-api-v2/model/domain"
 	"github.com/nuraziz04/echo-restful-api-v2/model/web"
@@ -13,16 +14,21 @@ import (
 type PegawaiServiceImpl struct {
 	PegawaiRepository repository.PegawaiRepository
 	DB                *sql.DB
+	Validate          *validator.Validate
 }
 
-func NewPegawaiService(pegawaiRespository repository.PegawaiRepository, db *sql.DB) PegawaiService {
+func NewPegawaiService(pegawaiRespository repository.PegawaiRepository, db *sql.DB, validate *validator.Validate) PegawaiService {
 	return &PegawaiServiceImpl{
 		PegawaiRepository: pegawaiRespository,
 		DB:                db,
+		Validate:          validate,
 	}
 }
 
 func (service *PegawaiServiceImpl) Create(ctx context.Context, request web.PegawaiCreateRequest) (web.PegawaiResponse, error) {
+	err := service.Validate.Struct(request)
+	helper.PanicIfError(err)
+
 	tx, err := service.DB.Begin()
 	helper.PanicIfError(err)
 
@@ -40,6 +46,9 @@ func (service *PegawaiServiceImpl) Create(ctx context.Context, request web.Pegaw
 }
 
 func (service *PegawaiServiceImpl) Update(ctx context.Context, request web.PegawaiUpdateRequest) (web.PegawaiResponse, error) {
+	err := service.Validate.Struct(request)
+	helper.PanicIfError(err)
+
 	tx, err := service.DB.Begin()
 	helper.PanicIfError(err)
 
