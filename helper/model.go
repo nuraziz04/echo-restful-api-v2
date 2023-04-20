@@ -21,3 +21,10 @@ func ToPegawaiResponses(pgs []domain.Pegawai) []web.PegawaiResponse {
 	}
 	return pegawais
 }
+
+func ToUsersResponse(user domain.Users) web.UsersCreateResponse {
+	return web.UsersCreateResponse{
+		Username: user.Username,
+		Email:    user.Email,
+	}
+}

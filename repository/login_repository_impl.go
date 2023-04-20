@@ -15,14 +15,14 @@ func NewLoginRepository() LoginRepository {
 	return &LoginRepositoryImpl{}
 }
 
-func (repository *LoginRepositoryImpl) CheckLogin(ctx context.Context, tx *sql.Tx, username string) (domain.Users, error) {
+func (repository *LoginRepositoryImpl) CheckLogin(ctx context.Context, tx *sql.Tx, username string) (domain.Login, error) {
 	SQL := "SELECT id, username, password FROM users WHERE username = ?"
 	rows, err := tx.QueryContext(ctx, SQL, username)
 	helper.PanicIfError(err)
 
 	defer rows.Close()
 
-	usr := domain.Users{}
+	usr := domain.Login{}
 
 	if rows.Next() {
 		err := rows.Scan(&usr.Id, &usr.Username, &usr.Password)

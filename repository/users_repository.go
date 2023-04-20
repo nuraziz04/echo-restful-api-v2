@@ -7,6 +7,6 @@ import (
 	"github.com/nuraziz04/echo-restful-api-v2/model/domain"
 )
 
-type LoginRepository interface {
-	CheckLogin(ctx context.Context, tx *sql.Tx, username string) (domain.Login, error)
+type UsersRepository interface {
+	Create(ctx context.Context, tx *sql.Tx, user domain.Users) domain.Users
 }

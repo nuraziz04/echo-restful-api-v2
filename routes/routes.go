@@ -19,6 +19,10 @@ func Init() *echo.Echo {
 
 	db := database.CreateConn()
 
+	userRepository := repository.NewUsersRepository()
+	userService := service.NewUsersService(userRepository, db, v)
+	usersController := controller.NewUsersController(userService)
+
 	pegawaiRepository := repository.NewPegawaiRepository()
 	pegawaiService := service.NewPegawaiService(pegawaiRepository, db, v)
 	pegawaiController := controller.NewPegawaiController(pegawaiService)
@@ -48,6 +52,8 @@ func Init() *echo.Echo {
 	e.GET("/pegawai/:id", pegawaiController.FindById, middleware.IsAuthenticated)
 	e.GET("/pegawai", pegawaiController.FindAll, middleware.IsAuthenticated)
 	e.POST("/pegawai-loop", pegawaiController.CreateLoop, middleware.IsAuthenticated)
+
+	e.POST("/users", usersController.Save)
 
 	e.POST("/login", LoginController.CheckLogin)
 
