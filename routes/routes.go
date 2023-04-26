@@ -54,6 +54,8 @@ func Init() *echo.Echo {
 	e.POST("/pegawai-loop", pegawaiController.CreateLoop, middleware.IsAuthenticated)
 
 	e.POST("/users", usersController.Save)
+	e.PUT("/users/:id", usersController.UpdatePassword, middleware.IsAuthenticated)
+	e.GET("/users/:id", usersController.FindUserById, middleware.IsAuthenticated)
 
 	e.POST("/login", LoginController.CheckLogin)
 
