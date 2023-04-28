@@ -17,7 +17,6 @@ func ErrorPanicHandler(err error, c echo.Context) {
 }
 
 func notfound(err error, c echo.Context) {
-	fmt.Println("PRINT ERROR :", err)
 	webResponse := web.WebResponse{
 		Code:   http.StatusNotFound,
 		Status: "NOT FOUND",

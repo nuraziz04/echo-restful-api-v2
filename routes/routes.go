@@ -7,8 +7,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/nuraziz04/echo-restful-api-v2/controller"
 	"github.com/nuraziz04/echo-restful-api-v2/database"
-	"github.com/nuraziz04/echo-restful-api-v2/exception"
-	"github.com/nuraziz04/echo-restful-api-v2/middleware"
+	"github.com/nuraziz04/echo-restful-api-v2/middlewares"
 	"github.com/nuraziz04/echo-restful-api-v2/repository"
 	"github.com/nuraziz04/echo-restful-api-v2/service"
 )
@@ -31,33 +30,27 @@ func Init() *echo.Echo {
 	loginService := service.NewLoginService(loginRepository, db)
 	LoginController := controller.NewLoginController(loginService)
 
-	e.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
-		return func(c echo.Context) error {
-			defer func() {
-				if err := recover(); err != nil {
-					exception.ErrorPanicHandler(err.(error), c)
-				}
-			}()
-			return next(c)
-		}
-	})
+	e.Use(middlewares.SetupLoggerConsole())
+	e.Use(middlewares.SetupLoggerFile())
+
+	e.Use(middlewares.ErrorPanicHandler)
 
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello, this is echo!")
 	})
 
-	e.POST("/pegawai", pegawaiController.Create, middleware.IsAuthenticated)
-	e.PUT("/pegawai/:id", pegawaiController.Update, middleware.IsAuthenticated)
-	e.DELETE("/pegawai/:id", pegawaiController.Delete, middleware.IsAuthenticated)
-	e.GET("/pegawai/:id", pegawaiController.FindById, middleware.IsAuthenticated)
-	e.GET("/pegawai", pegawaiController.FindAll, middleware.IsAuthenticated)
-	e.POST("/pegawai-loop", pegawaiController.CreateLoop, middleware.IsAuthenticated)
+	e.POST("/golang/api/pegawai", pegawaiController.Create, middlewares.IsAuthenticated)
+	e.PUT("/golang/api/pegawai/:id", pegawaiController.Update, middlewares.IsAuthenticated)
+	e.DELETE("/golang/api/pegawai/:id", pegawaiController.Delete, middlewares.IsAuthenticated)
+	e.GET("/golang/api/pegawai/:id", pegawaiController.FindById, middlewares.IsAuthenticated)
+	e.GET("/golang/api/pegawai", pegawaiController.FindAll, middlewares.IsAuthenticated)
+	e.POST("/golang/api/pegawai-loop", pegawaiController.CreateLoop, middlewares.IsAuthenticated)
 
-	e.POST("/users", usersController.Save)
-	e.PUT("/users/:id", usersController.UpdatePassword, middleware.IsAuthenticated)
-	e.GET("/users/:id", usersController.FindUserById, middleware.IsAuthenticated)
+	e.POST("/golang/api/users", usersController.Save)
+	e.PUT("/golang/api/users/:id", usersController.UpdatePassword, middlewares.IsAuthenticated)
+	e.GET("/golang/api/users/:id", usersController.FindUserById, middlewares.IsAuthenticated)
 
-	e.POST("/login", LoginController.CheckLogin)
+	e.POST("/golang/api/login", LoginController.CheckLogin)
 
 	return e
 }

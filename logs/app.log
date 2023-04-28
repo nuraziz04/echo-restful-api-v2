@@ -1,0 +1,5 @@
+{"time":"2023-04-28T09:03:40.0583038+07:00","id":"","remote_ip":"127.0.0.1","host":"localhost:1323","method":"POST","uri":"/golang/api/login","user_agent":"insomnia/2023.2.0","status":200,"error":""}
+{"time":"2023-04-28T09:04:02.8542502+07:00","id":"","remote_ip":"127.0.0.1","host":"localhost:1323","method":"GET","uri":"/golang/api/pegawai","user_agent":"insomnia/2023.2.0","status":401,"error":"code=401, message={401 Unauthorization map[message:Invalid Token]}"}
+{"time":"2023-04-28T09:04:15.1513494+07:00","id":"","remote_ip":"127.0.0.1","host":"localhost:1323","method":"GET","uri":"/golang/api/pegawai","user_agent":"insomnia/2023.2.0","status":200,"error":""}
+{"time":"2023-04-28T09:04:44.3309739+07:00","id":"","remote_ip":"127.0.0.1","host":"localhost:1323","method":"POST","uri":"/golang/api/pegawai","user_agent":"insomnia/2023.2.0","status":200,"error":""}
+{"time":"2023-04-28T09:05:07.185011+07:00","id":"","remote_ip":"127.0.0.1","host":"localhost:1323","method":"GET","uri":"/golang/api/pegawai","user_agent":"insomnia/2023.2.0","status":200,"error":""}
